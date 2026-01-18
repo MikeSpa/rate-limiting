@@ -6,9 +6,9 @@ import time
 from dataclasses import dataclass
 
 from rate_limit.error import RateLimitResult
+from rate_limit.observability import BucketSnapshot
 from rate_limit.policy import Limit
 from rate_limit.store.base import RateLimitStore
-from rate_limit.observability import BucketSnapshot
 
 
 @dataclass

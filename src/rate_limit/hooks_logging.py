@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import logging
-from rate_limit.hooks import RateLimitHooks
 import random
+
+from rate_limit.hooks import RateLimitHooks
+
 # logger = logging.getLogger("rate_limit")
 # logger = logging.getLogger("apiname.rate_limit")
 
@@ -25,21 +27,7 @@ class LoggingRateLimitHooks(RateLimitHooks):
         cost: str,
         remaining: float,
         request_id: str | None,
-    ):
-        # print(
-        #     f"Rate limit allowed for key: {key}, scope: {scope}, cost: {cost}, remaining: {remaining}"
-        # )
-        # # TODO switch to debug
-        # self._logger.debug(
-        #     "rate_limit.allowed",
-        #     extra={
-        #         "bucket_key": key,
-        #         "scope": scope,
-        #         "cost": cost,
-        #         "remaining": remaining,
-        #         "request_id": request_id,
-        #     },
-        # )
+    ) -> None:
         pass
 
     def on_rejected(
@@ -50,20 +38,7 @@ class LoggingRateLimitHooks(RateLimitHooks):
         cost: str,
         retry_after: int,
         request_id: str | None,
-    ):
-        # print(
-        #     f"Rate limit rejected for key: {key}, scope: {scope}, cost: {cost}, retry_after: {retry_after}"
-        # )
-        # self._logger.warning(
-        #     "rate_limit.rejected",
-        #     extra={
-        #         "bucket_key": key,
-        #         "scope": scope,
-        #         "cost": cost,
-        #         "retry_after": retry_after,
-        #         "request_id": request_id,
-        #     },
-        # )
+    ) -> None:
         pass
 
 
@@ -85,7 +60,7 @@ class SampledLoggingHooks(RateLimitHooks):
         cost: str,
         remaining: float,
         request_id: str | None,
-    ):
+    ) -> None:
         if random.random() < self._sample_rate:
             self._logger.info(
                 "rate_limit.allowed.sampled",
@@ -106,7 +81,7 @@ class SampledLoggingHooks(RateLimitHooks):
         cost: str,
         retry_after: int,
         request_id: str | None,
-    ):
+    ) -> None:
         # Always log rejections
         self._logger.warning(
             "rate_limit.rejected",

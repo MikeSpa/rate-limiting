@@ -3,8 +3,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 
 from rate_limit.error import RateLimitResult
-from rate_limit.policy import Limit
 from rate_limit.observability import BucketSnapshot
+from rate_limit.policy import Limit
 
 
 class RateLimitStore(ABC):

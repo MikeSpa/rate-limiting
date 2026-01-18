@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 from rate_limit.hooks import RateLimitHooks
 
 
 class TenantBillingHooks(RateLimitHooks):
-    def __init__(self, billing_client):
+    def __init__(self, billing_client) -> None:
         self.billing = billing_client
 
     def on_allowed(
@@ -13,7 +15,7 @@ class TenantBillingHooks(RateLimitHooks):
         cost: str,
         remaining: float,
         request_id: str | None,
-    ):
+    ) -> None:
         if scope != "tenant":
             return
 

@@ -1,8 +1,8 @@
 from .dependency import rate_limit
-from .hooks import RateLimitHooks, CompositeRateLimitHooks
+from .hooks import CompositeRateLimitHooks, RateLimitHooks
 from .hooks_logging import LoggingRateLimitHooks, SampledLoggingHooks
 from .limiter import RateLimiter
-from .policy import Scope, CostClass, Limit
+from .policy import CostClass, Limit, Scope
 from .store import InMemoryStore  # , RedisStore
 
 __version__ = "0.1.0"

@@ -8,7 +8,8 @@ class BucketSnapshot:
     """
     Store-level snapshot.
     This reflects *actual bucket state*, not policy.
-    The store is responsible for storing the bucket state. Doesnt care about capacity, policy, scope, cost classes,...
+    The store is responsible for storing the bucket state.
+    Doesnt care about capacity, policy, scope, cost classes,...
     """
 
     key: str

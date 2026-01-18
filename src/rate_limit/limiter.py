@@ -1,12 +1,16 @@
 from __future__ import annotations
 
+from collections.abc import Callable, Coroutine, Sequence
 from dataclasses import dataclass
-from collections.abc import Sequence
+from typing import Any
 
 from starlette.requests import Request
 
 from rate_limit.error import RateLimitExceeded, headers_from_result
+from rate_limit.hooks import RateLimitHooks
 from rate_limit.identity import IdentityResolver
+from rate_limit.keys import parse_bucket_key
+from rate_limit.observability import BucketView
 from rate_limit.policy import (
     CostClass,
     Policies,
@@ -15,9 +19,6 @@ from rate_limit.policy import (
     get_limit,
 )
 from rate_limit.store.base import RateLimitStore
-from rate_limit.observability import BucketView
-from rate_limit.keys import parse_bucket_key
-from rate_limit.hooks import RateLimitHooks
 
 
 @dataclass(frozen=True)
@@ -33,7 +34,8 @@ class RateLimiter:
     It uses a policies to define the rate limit policies.
     It uses a key namespace to prefix the keys of the rate limit buckets.
     It uses a hooks to hook into the rate limit process, for logging and other logic like billing.
-        The rate limiter emmits two events, on_allowed and on_rejected, which are called when a request is allowed or rejected.
+        The rate limiter emmits two events, on_allowed and on_rejected,
+        which are called when a request is allowed or rejected.
     """
 
     def __init__(
@@ -61,10 +63,9 @@ class RateLimiter:
         parts.extend(["scope", scope.value, scope_id, "cost", cost])
         return ":".join(parts)
 
-    # For now this lib is not framework agnostic, so we need to use starlette/FastAPI's Request object.
-    async def check(
-        self, *, request: Request, cost: str, scopes: Sequence[Scope]
-    ) -> None:
+    # For now this lib is not framework agnostic,
+    # so we need to use starlette/FastAPI's Request object.
+    async def check(self, *, request: Request, cost: str, scopes: Sequence[Scope]) -> None:
         ident = self._resolver.resolve(request)
 
         # Build scope -> id mapping
@@ -118,7 +119,7 @@ class RateLimiter:
         *,
         cost: str | CostClass,
         scopes: Sequence[Scope],
-    ):
+    ) -> Callable[[Request], Coroutine[Any, Any, None]]:
         """
         Returns a callable suitable for FastAPI Depends, but kept here for reuse.
         """

@@ -1,11 +1,14 @@
-from .limiter import RateLimiter
 from .dependency import rate_limit
-from .policy import Scope, CostClass, Limit
 from .hooks import RateLimitHooks, CompositeRateLimitHooks
 from .hooks_logging import LoggingRateLimitHooks, SampledLoggingHooks
-from .store import InMemoryStore, RedisStore
+from .limiter import RateLimiter
+from .policy import Scope, CostClass, Limit
+from .store import InMemoryStore  # , RedisStore
+
+__version__ = "0.1.0"
 
 __all__ = [
+    "__version__",
     "RateLimiter",
     "rate_limit",
     "Scope",
@@ -16,5 +19,5 @@ __all__ = [
     "LoggingRateLimitHooks",
     "SampledLoggingHooks",
     "InMemoryStore",
-    "RedisStore",
+    # "RedisStore",
 ]

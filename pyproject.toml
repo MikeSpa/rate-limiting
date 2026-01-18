@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rate-limit"
+version = "0.1.0"
+description = "A lightweight, extensible cost-aware rate-limiting engine for FastAPI applications"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    {name = "Mike Spa", email = "mikespa@protonmail.com"},
+]
+
+dependencies = [
+  "starlette",
+  "fastapi"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+    "mypy",
+]
+fastapi = [
+  "fastapi",
+  "starlette",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true

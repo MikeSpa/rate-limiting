@@ -61,6 +61,7 @@ class RateLimiter:
         parts.extend(["scope", scope.value, scope_id, "cost", cost])
         return ":".join(parts)
 
+    # For now this lib is not framework agnostic, so we need to use starlette/FastAPI's Request object.
     async def check(
         self, *, request: Request, cost: str, scopes: Sequence[Scope]
     ) -> None:

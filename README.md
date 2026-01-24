@@ -78,7 +78,30 @@ Design Principles
 	•	No framework lock-in
 	•	Observability as a first-class concern
 
+## Redis backend
 
+exmaple setup:
+```py
+import redis.asyncio as redis
+from rate_limit.store.redis import RedisStore
+from rate_limit.limiter import RateLimiter
+
+redis_client = redis.from_url(
+    "redis://localhost:6379/0",
+    decode_responses=True,
+)
+
+store = RedisStore(
+    client=redis_client,
+    ttl_seconds=3600,
+    key_prefix="myapp-rate",
+)
+
+limiter = RateLimiter(
+    store=store,
+    hooks=hooks,
+)
+```
 
 ## Comparison with limits/slowapi
 
@@ -95,3 +118,5 @@ Design Principles
 
 ## Future RoadMap
 - Redis backend
+
+- cleanly separate the core from fastapi to have the lib completely framework agnostic (now we still have the request object in check())

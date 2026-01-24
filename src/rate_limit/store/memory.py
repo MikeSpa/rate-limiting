@@ -23,6 +23,8 @@ class InMemoryStore(RateLimitStore):
     """
     In-memory token bucket store.
     Safe for single-instance deployments only.
+
+    its a simple dict[str, Bucket]
     """
 
     def __init__(self, *, ttl_seconds: int = 3600) -> None:
@@ -51,9 +53,7 @@ class InMemoryStore(RateLimitStore):
 
             # Refill
             elapsed = max(0.0, now - b.last_ts)
-            b.tokens = min(
-                float(limit.capacity), b.tokens + elapsed * limit.refill_rate_per_sec
-            )
+            b.tokens = min(float(limit.capacity), b.tokens + elapsed * limit.refill_rate_per_sec)
             b.last_ts = now
             b.expires_at = now + self._ttl_seconds
 

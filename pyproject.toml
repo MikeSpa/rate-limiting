@@ -18,14 +18,17 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+fastapi = [
+  "fastapi",
+  "starlette",
+]
+redis = [
+  "redis"
+]
 dev = [
     "pytest",
     "ruff",
     "mypy",
-]
-fastapi = [
-  "fastapi",
-  "starlette",
 ]
 
 [tool.setuptools]

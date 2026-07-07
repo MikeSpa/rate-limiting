@@ -117,6 +117,5 @@ limiter = RateLimiter(
 ---
 
 ## Future RoadMap
-- Redis backend
 
 - cleanly separate the core from fastapi to have the lib completely framework agnostic (now we still have the request object in check())
